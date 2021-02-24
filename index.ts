@@ -51,7 +51,8 @@ function getAverageStrategy(): number[] {
 }
 
 
-function train(iterations: number, logFrequency: number = 100): void {
+function train(iterations: number): void {
+  const logFrequency = 200;
   console.log('start training');
   let actionUtility: number[] = [0,0,0];
   for (let i = 0; i < iterations; i++) {
@@ -73,4 +74,9 @@ function train(iterations: number, logFrequency: number = 100): void {
   console.log(`*** cfr optimized to play ${Math.round(strategy[0]*100)}% rock, ${Math.round(strategy[1]*100)}% paper, ${Math.round(strategy[2]*100)}% scissors after ${iterations} iterations.`);
 }
 
-train(1000, 200);
+declare var process : {
+  argv: string[]
+}
+if (process.argv[2] === 'train') {
+  train(+process.argv[3]);
+}
