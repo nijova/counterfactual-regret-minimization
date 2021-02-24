@@ -1,12 +1,10 @@
-const ROCK: number = 0;
-const PAPER: number = 1;
-const SCISSORS: number = 2;
+// strategy[rock,paper,scissors]
 
-let regretSum: number[] = [1,1,1];
-let strategy: number[] = [1,1,1];
-let strategySum: number[] = [1,1,1];
+let regretSum: number[] = [1, 1, 1];
+let strategySum: number[] = [0, 0, 0];
 
-let oppStrategy: number[] = [0.8, 0.1, 0.1];
+let strategy: number[] = [1 / 3, 1 / 3, 1 / 3]; // sum must be 1 !
+let oppStrategy: number[] = [0.3, 0.3, 0.4];
 
 function getStrategy(): number[] {
   let normalizingSum: number = 0;
@@ -27,9 +25,9 @@ function getStrategy(): number[] {
 
 function getAction(_strategy: number[]): number {
   const r = Math.random();
-  if (r < _strategy[0]) {
+  if (r <= _strategy[0]) {
     return 0;
-  } else if (r < 1 - _strategy[2]) {
+  } else if (r <= _strategy[0] + _strategy[1]) {
     return 1;
   } else {
     return 2;
@@ -53,7 +51,8 @@ function getAverageStrategy(): number[] {
 }
 
 
-function train(iterations: number): void {
+function train(iterations: number, logFrequency: number = 100): void {
+  console.log('start training');
   let actionUtility: number[] = [0,0,0];
   for (let i = 0; i < iterations; i++) {
     let _strategy = getStrategy();
@@ -61,13 +60,17 @@ function train(iterations: number): void {
     const oppAction = getAction(oppStrategy)
     actionUtility[oppAction] = 0;
     actionUtility[(oppAction + 1) % 3] = 1;
-    actionUtility[(oppAction - 1) % 3] = -1;
+    actionUtility[(oppAction + 2) % 3] = -1;
     for (let j = 0; j < 3; j++) {
       regretSum[j] += actionUtility[j] - actionUtility[myAction];
     }
+    if (i % logFrequency === logFrequency - 1) {
+      console.log(`iteration ${i + 1}, current average strategy: ${getAverageStrategy()}`)
+    }
   }
+
+  console.log(`*** opponent played ${Math.round(oppStrategy[0]*100)}% rock, ${Math.round(oppStrategy[1]*100)}% paper, ${Math.round(oppStrategy[2]*100)}% scissors.`);
+  console.log(`*** cfr optimized to play ${Math.round(strategy[0]*100)}% rock, ${Math.round(strategy[1]*100)}% paper, ${Math.round(strategy[2]*100)}% scissors after ${iterations} iterations.`);
 }
 
-
-train(1000);
-console.log(getAverageStrategy());
+train(1000, 200);
