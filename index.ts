@@ -2,14 +2,9 @@ const ROCK: number = 0;
 const PAPER: number = 1;
 const SCISSORS: number = 2;
 
-function rand(): number {
-  return Math.random();
-}
-
 let regretSum: number[] = [1,1,1];
 let strategy: number[] = [1,1,1];
 let strategySum: number[] = [1,1,1];
-
 
 let oppStrategy: number[] = [0.8, 0.1, 0.1];
 
@@ -30,20 +25,15 @@ function getStrategy(): number[] {
   return strategy;
 }
 
-
-// refactor a lot!
 function getAction(_strategy: number[]): number {
-  const r = rand();
-  let cumulativeProbability = 0;
-  let i = 0;
-  while (i < 3) {
-    cumulativeProbability += _strategy[i];
-    if (r < cumulativeProbability) {
-      break;
-    }
-    i++;
+  const r = Math.random();
+  if (r < _strategy[0]) {
+    return 0;
+  } else if (r < 1 - _strategy[2]) {
+    return 1;
+  } else {
+    return 2;
   }
-  return i;
 }
 
 function getAverageStrategy(): number[] {
