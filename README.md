@@ -4,6 +4,6 @@ This is a typescript implementation of the cfr Rock-Paper-Scissors-trainer found
 
 ### Training mode
 
-To run the script in training mode, execute the run.sh with parameters 'train' and #iterations, for example like this:
+To run the script in training mode, execute the cfr.sh with parameters 'train' and #iterations, for example like this:
 
 `./cfr.sh train 1000`
