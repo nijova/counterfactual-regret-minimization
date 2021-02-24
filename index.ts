@@ -3,8 +3,12 @@
 let regretSum: number[] = [1, 1, 1];
 let strategySum: number[] = [0, 0, 0];
 
-let strategy: number[] = [1 / 3, 1 / 3, 1 / 3]; // sum must be 1 !
+let strategy: number[] = [1 / 3, 1 / 3, 1 / 3];
+console.assert(strategy.length === 3);
+console.assert(strategy.reduce((a, b) => {return a + b;}, 0) === 1, 'Sum of strategy should be 1');
 let oppStrategy: number[] = [0.3, 0.3, 0.4];
+console.assert(oppStrategy.length === 3);
+console.assert(oppStrategy.reduce((a, b) => {return a + b;}, 0) === 1, 'Sum of oppStrategy should be 1');
 
 function getStrategy(): number[] {
   let normalizingSum: number = 0;
@@ -50,7 +54,6 @@ function getAverageStrategy(): number[] {
   return avgStrategy;
 }
 
-
 function train(iterations: number): void {
   const logFrequency = 200;
   console.log('start training');
@@ -79,4 +82,8 @@ declare var process : {
 }
 if (process.argv[2] === 'train') {
   train(+process.argv[3]);
+} else if(process.argv[2] === 'play') {
+  console.log('TODO implement play mode')
+} else if(process.argv[2] === 'test') {
+  console.log('TODO implement some test examples')
 }
