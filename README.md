@@ -7,3 +7,5 @@ This is a typescript implementation of the cfr Rock-Paper-Scissors-trainer found
 To build and play Rock-Paper-Sissors against the script, run:
 
 'npm run play'
+
+Good luck!
