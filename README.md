@@ -2,8 +2,8 @@
 
 This is a typescript implementation of the cfr Rock-Paper-Scissors-trainer found at http://modelai.gettysburg.edu/2013/cfr/
 
-### Training mode
+### Play against the CFR:
 
-To run the script in training mode, execute the cfr.sh with parameters 'train' and #iterations, for example like this:
+To build and play Rock-Paper-Sissors against the script, run:
 
-`./cfr.sh train 1000`
+'npm run play'

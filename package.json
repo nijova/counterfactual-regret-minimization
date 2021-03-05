@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "play": "tsc index.ts --outDir compiled && node compiled/index.js",
     "test": "echo \"TODO: implement test cases\" && exit 0"
   },
   "author": "",
