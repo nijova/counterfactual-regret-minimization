@@ -4,7 +4,7 @@ This is a typescript implementation of the cfr Rock-Paper-Scissors-trainer found
 
 ### Play against the CFR:
 
-To build and play Rock-Paper-Sissors against the script, run:
+To build and play Rock-Paper-Scissors against the script, after 'npm install', run:
 
 'npm run play'
 
