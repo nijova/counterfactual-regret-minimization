@@ -1,14 +1,12 @@
-// strategy[rock,paper,scissors]
+const readline = require('readline');
 
+const rps: string[] = ['Rock', 'Paper', 'Scissors'];
 let regretSum: number[] = [1, 1, 1];
 let strategySum: number[] = [0, 0, 0];
 
 let strategy: number[] = [1 / 3, 1 / 3, 1 / 3];
 console.assert(strategy.length === 3);
-console.assert(strategy.reduce((a, b) => {return a + b;}, 0) === 1, 'Sum of strategy should be 1');
-let oppStrategy: number[] = [0.3, 0.3, 0.4];
-console.assert(oppStrategy.length === 3);
-console.assert(oppStrategy.reduce((a, b) => {return a + b;}, 0) === 1, 'Sum of oppStrategy should be 1');
+console.assert(strategy.reduce((a, b) => a + b, 0) === 1, 'Sum of strategy should be 1');
 
 function getStrategy(): number[] {
   let normalizingSum: number = 0;
@@ -54,36 +52,38 @@ function getAverageStrategy(): number[] {
   return avgStrategy;
 }
 
-function train(iterations: number): void {
-  const logFrequency = 200;
-  console.log('start training');
-  let actionUtility: number[] = [0,0,0];
-  for (let i = 0; i < iterations; i++) {
-    let _strategy = getStrategy();
-    const myAction = getAction(_strategy);
-    const oppAction = getAction(oppStrategy)
-    actionUtility[oppAction] = 0;
-    actionUtility[(oppAction + 1) % 3] = 1;
-    actionUtility[(oppAction + 2) % 3] = -1;
-    for (let j = 0; j < 3; j++) {
-      regretSum[j] += actionUtility[j] - actionUtility[myAction];
-    }
-    if (i % logFrequency === logFrequency - 1) {
-      console.log(`iteration ${i + 1}, current average strategy: ${getAverageStrategy()}`)
-    }
-  }
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
-  console.log(`*** opponent played ${Math.round(oppStrategy[0]*100)}% rock, ${Math.round(oppStrategy[1]*100)}% paper, ${Math.round(oppStrategy[2]*100)}% scissors.`);
-  console.log(`*** cfr optimized to play ${Math.round(strategy[0]*100)}% rock, ${Math.round(strategy[1]*100)}% paper, ${Math.round(strategy[2]*100)}% scissors after ${iterations} iterations.`);
+function play(): void {
+  let _strategy = getStrategy();
+  rl.question('Choose Rock(r) or Paper(p) or Scissors(s): ', (answer: string) => {
+    if (answer === 'r' || answer === 'p' || answer === 's') {
+      const move = answer === 'r' ? 0 : answer === 'p' ? 1 : 2;
+      console.log(`- Player chose ${rps[move]}.`);
+      let actionUtility: number[] = [0,0,0];
+      const cfrAction = getAction(_strategy);
+      console.log(`- CFR chose ${rps[cfrAction]}.`);
+      console.log();
+      const playerAction = move;
+      actionUtility[playerAction] = 0;
+      actionUtility[(playerAction + 1) % 3] = 1;
+      actionUtility[(playerAction + 2) % 3] = -1;
+      for (let j = 0; j < 3; j++) {
+        regretSum[j] += actionUtility[j] - actionUtility[cfrAction];
+      }
+      if ((3 + cfrAction - playerAction) % 3 === 2) { playerScore += 1; }
+      if ((3 + cfrAction - playerAction) % 3 === 1) { cfrScore += 1; }
+      console.log(`***** Player score: ${playerScore}, CFR score: ${cfrScore} *****`);
+    }
+    console.log();
+    play();
+  });
 }
 
-declare var process : {
-  argv: string[]
-}
-if (process.argv[2] === 'train') {
-  train(+process.argv[3]);
-} else if(process.argv[2] === 'play') {
-  console.log('TODO implement play mode')
-} else if(process.argv[2] === 'test') {
-  console.log('TODO implement some test examples')
-}
+let cfrScore = 0;
+let playerScore = 0;
+
+play();
