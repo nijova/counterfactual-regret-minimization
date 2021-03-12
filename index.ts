@@ -1,9 +1,6 @@
 const readline = require('readline');
 import {rps, strategy, getStrategy, getAction, updateRegretSum } from './helpers';
 
-console.assert(strategy.length === 3);
-console.assert(strategy.reduce((a, b) => a + b, 0) === 1, 'Sum of strategy should be 1');
-
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout

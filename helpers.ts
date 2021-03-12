@@ -3,6 +3,12 @@ export let regretSum: number[] = [1, 1, 1];
 export let strategySum: number[] = [0, 0, 0];
 export let strategy: number[] = [1 / 3, 1 / 3, 1 / 3];
 
+export function reset(): void {
+  regretSum = [1, 1, 1];
+  strategySum = [0, 0, 0];
+  strategy = [1 / 3, 1 / 3, 1 / 3];
+}
+
 export function getStrategy(): number[] {
   let normalizingSum: number = 0;
   for (let i = 0; i < 3; i++) {

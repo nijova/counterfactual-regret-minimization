@@ -9,3 +9,7 @@ To build and play Rock-Paper-Scissors against the script, after 'npm install', r
 'npm run play'
 
 Good luck!
+
+### Run tests:
+
+'npm test'
