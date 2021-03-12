@@ -11,8 +11,10 @@ describe("strategy array", function() {
 });
 
 describe("cfr strategy", function() {
-  it("plays rock against scissors", function() {
+  beforeEach(function() {
     helpers.reset();
+  });
+  it("plays rock against scissors", function() {
     let _oppStrategy = [0.3, 0.3, 0.4];
     for (let i = 0; i < iterations; i++) {
       let _strategy = helpers.getStrategy();
@@ -23,7 +25,6 @@ describe("cfr strategy", function() {
     expect(helpers.getStrategy()).toEqual([1,0,0]);
   })
   it("plays paper against rock", function() {
-    helpers.reset();
     let _oppStrategy = [0.4, 0.3, 0.3];
     for (let i = 0; i < iterations; i++) {
       let _strategy = helpers.getStrategy();
@@ -34,7 +35,6 @@ describe("cfr strategy", function() {
     expect(helpers.getStrategy()).toEqual([0,1,0]);
   })
   it("plays scissors against paper", function() {
-    helpers.reset();
     let _oppStrategy = [0.3, 0.4, 0.3];
     for (let i = 0; i < iterations; i++) {
       let _strategy = helpers.getStrategy();
@@ -45,7 +45,6 @@ describe("cfr strategy", function() {
     expect(helpers.getStrategy()).toEqual([0,0,1]);
   })
   it("plays any mixed strategy against random", function() {
-    helpers.reset();
     let _oppStrategy = [1 / 3, 1 / 3, 1 / 3];
     for (let i = 0; i < iterations; i++) {
       let _strategy = helpers.getStrategy();
