@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run play",
     "play": "tsc index.ts --outDir compiled && node compiled/index.js",
-    "test": "echo \"TODO: implement test cases\" && exit 0"
+    "test": "jasmine"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +15,7 @@
     "require": "^2.4.20"
   },
   "devDependencies": {
-    "@types/node": "^14.14.31"
+    "@types/node": "^14.14.31",
+    "jasmine": "^3.6.4"
   }
 }
