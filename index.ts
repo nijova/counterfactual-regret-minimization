@@ -52,6 +52,16 @@ function getAverageStrategy(): number[] {
   return avgStrategy;
 }
 
+function updateRegretSum(cfrAction: number, playerAction: number): void {
+  let actionUtility: number[] = [0,0,0];
+  actionUtility[playerAction] = 0;
+  actionUtility[(playerAction + 1) % 3] = 1;
+  actionUtility[(playerAction + 2) % 3] = -1;
+  for (let i = 0; i < 3; i++) {
+    regretSum[i] += actionUtility[i] - actionUtility[cfrAction];
+  }
+}
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
@@ -63,17 +73,11 @@ function play(): void {
     if (answer === 'r' || answer === 'p' || answer === 's') {
       const move = answer === 'r' ? 0 : answer === 'p' ? 1 : 2;
       console.log(`- Player chose ${rps[move]}.`);
-      let actionUtility: number[] = [0,0,0];
       const cfrAction = getAction(_strategy);
       console.log(`- CFR chose ${rps[cfrAction]}.`);
       console.log();
       const playerAction = move;
-      actionUtility[playerAction] = 0;
-      actionUtility[(playerAction + 1) % 3] = 1;
-      actionUtility[(playerAction + 2) % 3] = -1;
-      for (let j = 0; j < 3; j++) {
-        regretSum[j] += actionUtility[j] - actionUtility[cfrAction];
-      }
+      updateRegretSum(cfrAction, playerAction);
       if ((3 + cfrAction - playerAction) % 3 === 2) { playerScore += 1; }
       if ((3 + cfrAction - playerAction) % 3 === 1) { cfrScore += 1; }
       console.log(`***** Player score: ${playerScore}, CFR score: ${cfrScore} *****`);
