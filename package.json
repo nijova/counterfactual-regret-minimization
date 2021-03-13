@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run play",
     "play": "tsc index.ts --outDir compiled && node compiled/index.js",
-    "test": "jasmine"
+    "test": "tsc index.ts --outDir compiled && jasmine"
   },
   "author": "",
   "license": "ISC",
